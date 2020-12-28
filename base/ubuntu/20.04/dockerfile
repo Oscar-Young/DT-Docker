@@ -14,15 +14,16 @@ rm -rf /var/cache/apt/archives
 RUN useradd -m -s /bin/bash ${USERNAME} && \
 echo "${USERNAME}:${USERNAME}" | chpasswd && \
 echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-ssh-keygen -q -t rsa -N '' -f /home/${USERNAME}/id_rsa && \
-cat /home/${USERNAME}/id_rsa.pub >> /home/${USERNAME}/authorized_keys && \
+mkdir /home/${USERNAME}/.ssh && \
+ssh-keygen -q -t rsa -N '' -f /home/${USERNAME}/.ssh/id_rsa && \
+cat /home/${USERNAME}/.ssh/id_rsa.pub >> /home/${USERNAME}/.ssh/authorized_keys && \
 sudo sed -i '/PermitUserEnvironment/c\PermitUserEnvironment yes' /etc/ssh/sshd_config && \
-sudo sed -i '/StrictHostKeyChecking/c\StrictHostKeyChecking no' /etc/ssh/sshd_config && \
-sudo echo '/etc/init.d/ssh start' >> /etc/bash.bashrc
+sudo sed -i '/StrictHostKeyChecking/c\StrictHostKeyChecking no' /etc/ssh/ssh_config && \
+sudo echo 'sudo /etc/init.d/ssh start' >> /etc/bash.bashrc
 
-USER ${USERNAME}}
+USER ${USERNAME}
 
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV PATH=$PATH:$JAVA_HOME/bin
 
-CMD ["bin/bash"]
+CMD ["/bin/bash"]
