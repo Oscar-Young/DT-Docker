@@ -1,0 +1,20 @@
+FROM dt-base:1.0.0
+
+ADD hadoop-3.3.0.tar.gz /opt
+
+COPY  etc/hadoop /opt/hadoop-3.3.0/etc/hadoop
+
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV HADOOP_HOME=/opt/hadoop-3.3.0
+ENV HADOOP_MAPRED_HOME=$HADOOP_HOME
+ENV HADOOP_YARN_HOME=$HADOOP_HOME
+ENV HADOOP_COMMON_HOME=$HADOOP_HOME
+ENV HADOOP_HDFS_HOME=$HADOOP_HOME
+ENV YARN_HOME=$HADOOP_HOME
+ENV HADOOP_LOG_DIR=/tmp
+ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+RUN hdfs namenode -format
+RUN echo '/opt/hadoop-3.3.0/sbin/start-all.sh' | sudo tee -a '/etc/profile'
+
+CMD ["sh","-c","start-all.sh && tail -f /dev/null"]

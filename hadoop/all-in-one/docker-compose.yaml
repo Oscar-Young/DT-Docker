@@ -1,0 +1,19 @@
+version: "3"
+services:
+  hadoop:
+    stdin_open: true
+    tty: true
+    container_name: hadoop
+    image: dt-hadoop:all-in-one
+    ports: 
+      - 9871:9871
+      - 9870:9870
+      - 9869:9869
+      - 9868:9868
+      - 9867:9867
+      - 9866:9866
+      - 9865:9865
+      - 9864:9864
+      - 9820:9820
+    volumes: 
+      - ./hadoop:/opt/hadoop-3.3.0/etc/hadoop/

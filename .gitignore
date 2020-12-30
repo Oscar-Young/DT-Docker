@@ -1,2 +1,2 @@
-*.tar.gz
-hadoop-3.3.0
+.vscode/launch.json
+hadoop/all-in-one/hadoop-3.3.0.tar.gz
